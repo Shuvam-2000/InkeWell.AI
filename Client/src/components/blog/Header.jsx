@@ -16,6 +16,12 @@ const Header = () => {
           InkWell.AI is your personal space to write, publish, and grow — now
           supercharged with AI tools to help you blog smarter and faster.
         </p>
+
+        {/* search box */}
+        <form className="flex justify-between max-w-lg max-sm:scale-80 mx-auto border border-gray-300 bg-white rounded overflow-hidden">
+          <input className="w-full pl-4 rounded-2xl" type="text" placeholder="Search For Blogs" required />
+          <button className="bg-primary text-white px-8 py-2 m-1.5 rounded hover:scale-105 transition-all cursor-pointer" type="submit">Search</button>
+        </form>
       </div>
       <img
         src={assets.gradientBackground}

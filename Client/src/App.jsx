@@ -25,7 +25,7 @@ function App() {
       <LayoutWrapper>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/blog" element={<Blogs />} />
+          <Route path="/blog/:id" element={<Blogs />} />
           <Route path="/login" element={<Login />} />
         </Routes>
       </LayoutWrapper>
