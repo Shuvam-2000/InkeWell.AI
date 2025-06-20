@@ -1,5 +1,6 @@
 import { NavLink } from "react-router-dom";
 import { assets } from "../../assets/assets";
+import { House, LayoutDashboard, BadgePlus } from 'lucide-react';
 
 const Sidebar = () => {
   return (
@@ -10,10 +11,10 @@ const Sidebar = () => {
         className={({ isActive }) => {
           return `flex items-center gap-3 py-3.5 px-3 md:px-9 md:min-w-64 cursor-pointer ${
             isActive ? "bg-primary/10 border-r-4 border-primary" : ""
-          }`;
+          } hover:bg-primary/10 hover:border-r-4 hover:border-primary`;
         }}
       >
-        <img src={assets.home_icon} className="min-w-4 w-5" />
+        <LayoutDashboard size={20} />
         <p className="hidden md:inline-block">Dashboard</p>
       </NavLink>
       <NavLink
@@ -21,10 +22,10 @@ const Sidebar = () => {
         className={({ isActive }) => {
           return `flex items-center gap-3 py-3.5 px-3 md:px-9 md:min-w-64 cursor-pointer ${
             isActive ? "bg-primary/10 border-r-4 border-primary" : ""
-          }`;
+          } hover:bg-primary/10 hover:border-r-4 hover:border-primary`;
         }}
       >
-        <img src={assets.add_icon} className="min-w-4 w-5" />
+        <BadgePlus size={20} />
         <p className="hidden md:inline-block">Add New Blog</p>
       </NavLink>
       <NavLink
@@ -32,7 +33,7 @@ const Sidebar = () => {
         className={({ isActive }) => {
           return `flex items-center gap-3 py-3.5 px-3 md:px-9 md:min-w-64 cursor-pointer ${
             isActive ? "bg-primary/10 border-r-4 border-primary" : ""
-          }`;
+          } hover:bg-primary/10 hover:border-r-4 hover:border-primary`;
         }}
       >
         <img src={assets.list_icon} className="min-w-4 w-5" />
@@ -43,7 +44,7 @@ const Sidebar = () => {
         className={({ isActive }) => {
           return `flex items-center gap-3 py-3.5 px-3 md:px-9 md:min-w-64 cursor-pointer ${
             isActive ? "bg-primary/10 border-r-4 border-primary" : ""
-          }`;
+          } hover:bg-primary/10 hover:border-r-4 hover:border-primary`;
         }}
       >
         <img src={assets.comment_icon} className="min-w-4 w-5" />
@@ -54,10 +55,10 @@ const Sidebar = () => {
         className={({ isActive }) => {
           return `flex items-center gap-3 py-3.5 px-3 md:px-9 md:min-w-64 cursor-pointer ${
             isActive ? "bg-primary/10 border-r-4 border-primary" : ""
-          }`;
+          } hover:bg-primary/10 hover:border-r-4 hover:border-primary`;
         }}
       >
-        <img src={assets.home_icon} className="min-w-4 w-5" />
+        <House size={20} />
         <p className="hidden md:inline-block">Go to Home</p>
       </NavLink>
     </div>
