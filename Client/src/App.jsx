@@ -10,6 +10,7 @@ import AddBlog from "./components/admin/AddBlog";
 import ListBlog from "./components/admin/ListBlog";
 import Comments from "./components/admin/Comments";
 import { useLocation } from "react-router-dom";
+import 'quill/dist/quill.snow.css';
 import "./index.css";
 
 function LayoutWrapper({ children }) {
