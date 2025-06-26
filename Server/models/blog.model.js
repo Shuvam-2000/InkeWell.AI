@@ -20,7 +20,7 @@ const BlogSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    isPublihsed: {
+    isPublished: {
         type: Boolean,
         required: true
     }
