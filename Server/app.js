@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import { configDotenv } from 'dotenv';
 import userRoute from './routes/user.routes.js'
+import blogRoute from './routes/blog.routes.js'
 import './utils/connection.js'
 
 // initialize the app
@@ -25,6 +26,7 @@ app.get('/', (req,res) => {
 
 // app routes
 app.use('/api/user', userRoute)
+app.use('/api/blog', blogRoute)
 
 // run the server
 app.listen(PORT, () => console.log(`Server runing on PORT: ${PORT}`));
