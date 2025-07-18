@@ -107,7 +107,7 @@ export const getBlogById = async (req,res) => {
 
         const getblogs = await BlogModel.findById(blogId)
 
-        if(!getblogs) res.status(400).json({
+        if(!getblogs) return res.status(400).json({
             message: "Blog Not Found",
             success: false
         })
@@ -137,6 +137,9 @@ export const deleteBlogById = async (req,res) => {
         })
 
         const deleteBlog = await BlogModel.findByIdAndDelete(blogId)
+
+        // delete all comments on this blogs
+        await CommentModel.deleteMany({blog: blogId})
 
         if(!deleteBlog) res.status(400).json({
             message: 'Error Deleting Blog',
@@ -243,7 +246,6 @@ export const getComments = async (req, res) => {
         });
 
     } catch (error) {
-        console.error("Error in getComments:", error);
         res.status(500).json({
             message: 'Internal Server Error',
             success: false
