@@ -1,8 +1,9 @@
 import { ArrowRight } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
+import { useAppContext } from "../../context/AppContext";
 
 const Navbar = () => {
-  const navigate = useNavigate();
+  const { navigate, token } = useAppContext
   return (
     <div className="flex justify-between items-center py-5 mx-8 sm:mx-20 xl:mx-28 cursor-pointer border-b border-gray-200">
       <h1
@@ -15,7 +16,7 @@ const Navbar = () => {
         onClick={() => navigate("/login")}
         className="flex items-center gap-2 px-5 py-2 bg-blue-700 hover:bg-blue-800 text-white font-medium rounded-xl transition duration-300 cursor-pointer"
       >
-        Login
+        {token ? 'Dashboard' : 'Login'}
         <ArrowRight className="w-5 h-5" />
       </button>
     </div>

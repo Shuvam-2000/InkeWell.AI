@@ -10,7 +10,7 @@ const Login = () => {
 
   const onSubmit = (data) => {
     console.log(data);
-    reset(); // you can keep or remove this
+    reset(); 
   };
 
   return (
