@@ -1,4 +1,8 @@
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
+import { useAppContext } from '../../context/AppContext';
+import toast from 'react-hot-toast';
+import { ArrowLeft } from 'lucide-react'; 
 
 const Login = () => {
   const {
@@ -8,20 +12,48 @@ const Login = () => {
     reset,
   } = useForm();
 
-  const onSubmit = (data) => {
-    console.log(data);
-    reset(); 
+  const { axios, setToken } = useAppContext();
+  const navigate = useNavigate();
+
+  const onSubmit = async (formData) => {
+    try {
+      const response = await axios.post('/api/user/login', formData);
+      const token = response?.data?.token;
+
+      if (token) {
+        setToken(token);      
+        toast.success('Login Successful');
+        navigate('/admin');         
+        reset();                 
+      } else {
+        toast.error('Login failed: Invalid credentials');
+      }
+    } catch (error) {
+      const msg = error?.response?.data?.message || 'Login failed';
+      toast.error(msg);
+    }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 relative px-4">
+
+      {/* Go to Home Button */}
+      <button
+        onClick={() => navigate('/')}
+        className="absolute top-6 left-6 flex items-center gap-1 text-sm text-gray-700 hover:text-indigo-600 transition-all border border-black py-2 px-2 rounded cursor-pointer"
+      >
+        <ArrowLeft size={16} />
+        Go to Home
+      </button>
+
+      {/* Login Form */}
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col w-[90%] sm:max-w-md gap-4 bg-white text-gray-700 border border-gray-300 rounded-xl shadow-lg sm:p-8 p-6"
+        className="flex flex-col w-full sm:max-w-md gap-4 bg-white text-gray-700 border border-gray-300 rounded-xl shadow-lg sm:p-8 p-6 mt-10"
       >
         {/* Header */}
         <div className="inline-flex items-center gap-3 mb-2">
-          <p className="font-mono text-3xl">Login</p>
+          <p className="font-mono text-3xl">Admin Login</p>
           <hr className="border-none h-[1.5px] w-8 bg-gray-800" />
         </div>
 
@@ -53,12 +85,7 @@ const Login = () => {
           }`}
           {...register('password', {
             required: 'Password is Required',
-            minLength: { value: 4, message: 'Min length should be at least 4' },
-            maxLength: { value: 10, message: 'Max length should be at most 10' },
-            pattern: {
-              value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*?&]{6,}$/,
-              message: 'Password must include one letter and one number',
-            },
+            minLength: { value: 4, message: 'Min length should be at least 4' }
           })}
         />
         {errors.password && (
@@ -73,10 +100,12 @@ const Login = () => {
 
         {/* Submit Button */}
         <button
-          // disabled={isSubmitting}
-          className="bg-primary text-white font-mono px-10 py-2 mt-4 rounded-lg hover:bg-primary transition-all cursor-pointer"
+          disabled={isSubmitting}
+          className={`bg-primary text-white font-mono px-10 py-2 mt-4 rounded-lg transition-all cursor-pointer ${
+            isSubmitting ? 'opacity-60 cursor-not-allowed' : 'hover:bg-primary'
+          }`}
         >
-          Submit
+          {isSubmitting ? 'Logging in...' : 'Submit'}
         </button>
       </form>
     </div>

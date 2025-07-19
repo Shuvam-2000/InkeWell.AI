@@ -1,8 +1,19 @@
 import { Facebook, Instagram, Twitter } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useAppContext } from "../../context/AppContext";
 
 const Footer = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const { token } = useAppContext();
+
+  const handleNavigation = (path) => {
+    if (token) {
+      navigate(path);
+    } else {
+      navigate('/login');
+    }
+  };
+
   return (
     <div className="text-[#414141] py-14 px-6 sm:px-20 bg-gray-50">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-10 sm:gap-20">
@@ -20,10 +31,10 @@ const Footer = () => {
         {/* Middle: Explore / Add Blog */}
         <div className="flex flex-col gap-2">
           <h2 className="text-base sm:text-lg font-semibold">Explore</h2>
-          <p onClick={() => navigate('/admin')} className=" cursor-pointer text-sm hover:text-gray-700 text-gray-600 font-mono">
+          <p onClick={() => handleNavigation('/admin')} className="cursor-pointer text-sm hover:text-gray-700 text-gray-600 font-mono">
             Go to Dashboard
           </p>
-          <p onClick={() => navigate('/admin/addblog')} className=" cursor-pointer text-sm hover:text-gray-700 text-gray-600 font-mono">
+          <p onClick={() => handleNavigation('/admin/addblog')} className="cursor-pointer text-sm hover:text-gray-700 text-gray-600 font-mono">
             Add Your Blog
           </p>
         </div>

@@ -1,9 +1,9 @@
-import { createContext, useContext } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 
+// Set base URL globally for all axios requests
 axios.defaults.baseURL = import.meta.env.VITE_BASE_URL;
 
 const AppContext = createContext();
@@ -11,33 +11,53 @@ const AppContext = createContext();
 export const AppProvider = ({ children }) => {
   const navigate = useNavigate();
 
-  // state for storing the auth token
-  const [token, setToken] = useState(null);
+  // State for storing the auth token
+  const [token, setTokenState] = useState(null);
 
-  // state for storing the blogs
+  // State for storing all blogs
   const [blogs, setBlogs] = useState([]);
 
-  // stae for filtering the blogs
+  // State for input filtering
   const [input, setInput] = useState("");
 
-  // function to fetch blogs data from the database
+  // Custom setToken function
+  const setToken = (token) => {
+    if (token) {
+      localStorage.setItem("token", token);
+      axios.defaults.headers.common["Authorization"] = `${token}`;
+      setTokenState(token);
+    } else {
+      localStorage.removeItem("token");
+      delete axios.defaults.headers.common["Authorization"];
+      setTokenState(null);
+    }
+  };
+
+  // Fetch blogs from backend
   const fetchBlogData = async () => {
     try {
-      const {data} = await axios.get('/api/blog/getblogs');
-      data.success ? setBlogs(data.blogs) : toast.error(data.message)
+      const { data } = await axios.get("/api/blog/getblogs");
+      data.success ? setBlogs(data.blogs) : toast.error(data.message);
     } catch (error) {
-      toast.error(error.message)
+      toast.error(error.message);
     }
-  }
+  };
 
+  // On initial load, fetch blogs and token from localStorage
   useEffect(() => {
     fetchBlogData();
-    const token = localStorage.getItem('token')
-    if(token){
-      setToken(token)
-      axios.defaults.headers.common['Authorization'] = `${token}`
+    const storedToken = localStorage.getItem("token");
+    if (storedToken) {
+      setToken(storedToken); // This will also set axios header and state
     }
-  },[])
+  }, []);
+
+  // logout functionality
+  const logout = () => {
+    setToken(null);
+    toast.success("Logged out Successfully")
+    navigate("/login")
+  }
 
   const value = {
     axios,
@@ -48,12 +68,10 @@ export const AppProvider = ({ children }) => {
     setBlogs,
     input,
     setInput,
+    logout
   };
-  return <AppContext.Provider value={value}>
-            {children}
-        </AppContext.Provider>;
+
+  return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 };
 
-export const useAppContext = () => {
-  return useContext(AppContext);
-};
+export const useAppContext = () => useContext(AppContext);

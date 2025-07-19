@@ -1,17 +1,26 @@
 import { useState } from 'react'
-import { blog_data, blogCategories } from '../../assets/assets'
+import { blogCategories } from '../../assets/assets'
 import { motion } from "framer-motion"
 import BlogCard from './BlogCard' 
+import { useAppContext } from '../../context/AppContext'
 
 const BlogList = () => {
 
     // state for selecting menu  
     const [menu, setMenu] = useState("All")
+    const { blogs, input } = useAppContext()
 
     // Filter blogs based on selected category
-    const filteredBlogs = menu === "All"
-    ? blog_data
-    : blog_data.filter(blog => blog.category === menu)
+    // const filteredBlogs = menu === "All"
+    // ? blog_data
+    // : blog_data.filter(blog => blog.category === menu)
+
+    const searchFilter = () => {
+      if(input === ''){
+        return blogs
+      }
+      return blogs.filter((blog) => blog.title.toLowerCase().includes(input.toLowerCase()) || blog.category.toLowerCase().includes(input.toLowerCase()))
+    }
 
   return (
     <div>
@@ -42,7 +51,7 @@ const BlogList = () => {
 
       {/* Blog Cards */}
       <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-3 gap-8 mb-24 sm:mx-16 xl:mx-40'>
-        {filteredBlogs.map((blog) => (
+        {searchFilter().map((blog) => (
           <BlogCard key={blog._id} blog={blog} />
         ))}
       </div>

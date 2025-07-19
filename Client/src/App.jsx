@@ -10,7 +10,8 @@ import AddBlog from "./components/admin/AddBlog";
 import ListBlog from "./components/admin/ListBlog";
 import Comments from "./components/admin/Comments";
 import { Toaster } from "react-hot-toast";
-import { AppProvider, useAppContext } from "./context/AppContext.jsx";
+import { AppProvider } from "./context/AppContext.jsx";
+import PrivateRoute from "./components/admin/PrivateRoute";
 import "quill/dist/quill.snow.css";
 import "./index.css";
 
@@ -32,7 +33,6 @@ function LayoutWrapper({ children }) {
 function AppRoutes() {
   const location = useLocation();
   const isAdminRoute = location.pathname.startsWith("/admin");
-  // const { token } = useAppContext()
 
   return (
     <Routes>
@@ -51,17 +51,44 @@ function AppRoutes() {
         />
       ) : (
         <Route path="/admin" element={<Layout />}>
-          <Route index element={<Dashboard />} />
-          <Route path="addblog" element={<AddBlog />} />
-          <Route path="listblog" element={<ListBlog />} />
-          <Route path="comments" element={<Comments />} />
+          <Route
+            index
+            element={
+              <PrivateRoute>
+                <Dashboard />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="addblog"
+            element={
+              <PrivateRoute>
+                <AddBlog />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="listblog"
+            element={
+              <PrivateRoute>
+                <ListBlog />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="comments"
+            element={
+              <PrivateRoute>
+                <Comments />
+              </PrivateRoute>
+            }
+          />
         </Route>
       )}
     </Routes>
   );
 }
 
-// Final App component
 function App() {
   return (
     <BrowserRouter>
