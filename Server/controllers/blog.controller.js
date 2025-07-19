@@ -210,7 +210,7 @@ export const addComment = async (req,res) => {
         })
 
         res.status(201).json({
-            message: "Comment Posted SuccessFully",
+            message: "Comment Added For Review",
             success: true
         })
         
