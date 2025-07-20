@@ -96,26 +96,11 @@ export const getDashboard = async  (req,res) => {
         // fetch total no fo blogs
         const blogs = await BlogModel.countDocuments()
 
-        if(!blogs) return res.status(400).json({
-            message: 'Blogs Data Not Avaliable',
-            success: false
-        })
-
         // fetch total no of comments
         const comments = await CommentModel.countDocuments()
 
-        if(!comments) return res.status(400).json({
-            message: 'Comments Data Not Avaliable',
-            success: false
-        })
-
         // fetch total no of Draft Blogs
         const draftBlogs = await BlogModel.countDocuments({ isPublished: false })
-
-        if(!draftBlogs) return res.status(400).json({
-            message: 'DraftBlog Data Not Avaliable',
-            success: false
-        })
 
         // storing the data 
         const dashBoardData = {

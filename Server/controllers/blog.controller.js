@@ -2,6 +2,7 @@ import imagekit from "../config/imagekit.js";
 import BlogModel from "../models/blog.model.js";
 import fs from 'fs';
 import CommentModel from "../models/comment.model.js";
+import main from "../config/gemini.js";
 
 export const uploadBlogs = async (req, res) => {
     try {
@@ -141,7 +142,7 @@ export const deleteBlogById = async (req,res) => {
         // delete all comments on this blogs
         await CommentModel.deleteMany({blog: blogId})
 
-        if(!deleteBlog) res.status(400).json({
+        if(!deleteBlog) return res.status(400).json({
             message: 'Error Deleting Blog',
             success: false
         })
@@ -171,7 +172,7 @@ export const publishBlog = async (req,res) => {
 
         const blog = await BlogModel.findById(blogId)
 
-        if(!blog) res.status(400).json({
+        if(!blog) return res.status(400).json({
             message: 'Error Deleting Blog',
             success: false
         })
@@ -252,3 +253,23 @@ export const getComments = async (req, res) => {
         });
     }
 };
+
+// generate blog summary with AI
+export const generateContentWithAI = async (req,res) => {
+    try {
+        const { prompt } = req.body;
+
+        const content = await main(prompt + 'Generate a blog content for this topic in single text format')
+
+        res.status(200).json({
+            success: true,
+            content
+        })
+
+    } catch (error) {
+         res.status(500).json({
+            message: 'Internal Server Error',
+            success: false
+        });
+    }
+}

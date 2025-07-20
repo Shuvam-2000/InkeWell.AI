@@ -2,6 +2,7 @@ import express from "express";
 import {
   addComment,
   deleteBlogById,
+  generateContentWithAI,
   getAllBlogs,
   getBlogById,
   getComments,
@@ -35,9 +36,12 @@ router.delete("/delete/:blogId", authenticateUser, deleteBlogById);
 router.patch("/publish/:blogId", authenticateUser, publishBlog);
 
 // add comments
-router.post("/addcomment", addComment)
+router.post("/addcomment", addComment);
 
 // get comment for the blog
-router.post("/getcomment", getComments)
+router.post("/getcomment", getComments);
+
+// generate summary for a blog route
+router.post("/generate", authenticateUser, generateContentWithAI);
 
 export default router;
