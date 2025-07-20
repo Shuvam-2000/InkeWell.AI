@@ -14,6 +14,7 @@ const Blogs = () => {
   const [name, setName] = useState("");
   const [content, setContent] = useState("");
 
+  // fetching blogs data by Id from the backend
   const fetchblogdata = async () => {
     try {
       const { data } = await axios.get(`/api/blog/${id}`);
@@ -23,20 +24,19 @@ const Blogs = () => {
     }
   };
 
+  // fetching comments on each blog with the blogId
   const fetchComments = async () => {
     try {
       const { data } = await axios.post("/api/blog/getcomment", { blogId: id });
       if (data.success) {
         setComments(data?.comments);
-      } else {
-        toast.error(data.message);
       }
     } catch (error) {
-      console.error("Error fetching comments:", error);
       toast.error(error.message);
     }
   };
 
+  // adding comments on each blog
   const addComment = async (e) => {
     e.preventDefault();
     try {

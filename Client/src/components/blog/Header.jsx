@@ -43,7 +43,7 @@ const Header = () => {
       </div>
       <div className="text-center">
         { 
-        input && <button onClick={clearSearch} className="border font-light text-xs py-1 px-3 rounded-sm shadow-custom-sm cursor-pointer">Clear Search</button>
+        input && <button onClick={clearSearch} className="mb-6 border font-light text-xs py-1 px-3 rounded-sm shadow-custom-sm cursor-pointer">Clear Search</button>
         }
       </div>
       <img

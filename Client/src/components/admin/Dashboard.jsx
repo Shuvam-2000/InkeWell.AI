@@ -1,19 +1,28 @@
 import { useEffect, useState } from "react";
-import { assets, dashboard_data } from "../../assets/assets";
+import { assets } from "../../assets/assets";
 import { useNavigate } from "react-router-dom";
 import BlogTableItem from "./BlogTableItem";
+import { useAppContext } from "../../context/AppContext";
+import toast from "react-hot-toast";
 
 const Dashboard = () => {
   const navigate = useNavigate();
   const [dashboardData, setDashboardData] = useState({
     blogs: 0,
     comments: 0,
-    drafts: 0,
-    recentblogs: [],
+    draftBlogs: 0,
+    recentBlog: [],
   });
 
+  const { axios } = useAppContext()
+
   const fetchdashboard = async () => {
-    setDashboardData(dashboard_data);
+    try {
+      const { data } = await axios.get('/api/user/dashboard')
+      data.success ? setDashboardData(data.dashBoardData) : toast.error(data.message)
+    } catch (error) {
+      toast.error(error.message)
+    }
   };
 
   useEffect(() => {
@@ -60,7 +69,7 @@ const Dashboard = () => {
           <img src={assets.dashboard_icon_3} alt="Drafts Icon" />
           <div>
             <p className="text-xl font-semibold text-gray-600">
-              {dashboardData.drafts}
+              {dashboardData.draftBlogs}
             </p>
             <p className="text-gray-400 font-light">Drafts</p>
           </div>
@@ -97,8 +106,8 @@ const Dashboard = () => {
               </tr>
             </thead>
             <tbody>
-              {Array.isArray(dashboardData.recentBlogs) &&
-                dashboardData.recentBlogs.map((blog, index) => (
+              {Array.isArray(dashboardData.recentBlog) &&
+                dashboardData.recentBlog.map((blog, index) => (
                   <BlogTableItem
                     key={blog._id}
                     blog={blog}

@@ -1,12 +1,23 @@
 import { useEffect, useState } from "react";
-import { blog_data } from "../../assets/assets";
 import BlogTableItem from "./BlogTableItem"; 
+import { useAppContext } from "../../context/AppContext";
+import toast from "react-hot-toast";
 
 const ListBlog = () => {
   const [blogs, setBlogs] = useState([]);
+  const { axios } = useAppContext()
 
   const fetchBlogs = async () => {
-    setBlogs(blog_data);
+    try {
+      const { data } = await axios.get('/api/user/blogs')
+      if(data?.success){
+        setBlogs(data.blogs)
+      }else{
+        toast.error(data.message)
+      }
+    } catch (error) {
+      toast.error(error.message)
+    }
   };
 
   useEffect(() => {
@@ -22,7 +33,7 @@ const ListBlog = () => {
         <table className="w-full text-sm text-gray-500">
           <thead className="text-xs text-gray-600 text-left uppercase bg-gray-100">
             <tr>
-              <th scope="col" className="px-2 py-4 xl:px-6">#</th>
+              <th scope="col" className="px-2 py-4 xl:px-6">No</th>
               <th scope="col" className="px-2 py-4">Blog Title</th>
               <th scope="col" className="px-2 py-4 max-sm:hidden">Date</th>
               <th scope="col" className="px-2 py-4 max-sm:hidden">Status</th>
