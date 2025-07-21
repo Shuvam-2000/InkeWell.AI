@@ -72,28 +72,34 @@ export const uploadBlogs = async (req, res) => {
 };
 
 // get all uploaded blogs
-export const getAllBlogs = async (req,res) => {
-    try {
-        const blogs = await BlogModel.find({ isPublished: true })
+export const getAllBlogs = async (req, res) => {
+  try {
+    const blogs = await BlogModel.find({ isPublished: true });
 
-        if(!blogs) return res.status(400).json({
-            message: 'No Blogs Found',
-            success: false
-        })
-
-        res.status(200).json({
-            message: 'All the Blogs Found',
-            success: true,
-            blogs
-        })
-        
-    } catch (error) {
-        res.status(500).json({
-            message: 'Internal Server Error',
-            success: false
-        });
+    if (blogs.length === 0) {
+      return res.status(404).json({
+        message: 'No blogs found',
+        success: false,
+        blogs: [],
+      });
     }
-}
+
+    res.status(200).json({
+      message: 'All the Blogs Found',
+      success: true,
+      blogs,
+    });
+
+  } catch (error) {
+    console.error('🔥 Error fetching blogs:', error.message);
+    res.status(500).json({
+      message: 'Internal Server Error',
+      success: false,
+      error: error.message,
+    });
+  }
+};
+
 
 // get individual blog data by Id
 export const getBlogById = async (req,res) => {
