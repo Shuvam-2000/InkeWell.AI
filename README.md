@@ -45,25 +45,6 @@ A full-stack, AI-integrated blogging platform where admins can manage blogs and 
 - MongoDB (local or Atlas)
 - Google Gemini API key
 
----
-
-### 📦 Installation
-
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/your-username/ai-blog-platform.git
-   cd ai-blog-platform
-
-2 . **Install Dependencies**
-cd client
-npm install
-cd ../server
-npm install
- 
-### Runing the APP
-1 . **Client**
-  cd client
-  npm run dev
 
 2 . **Server**
   cd server
