@@ -59,17 +59,7 @@ cd client
 npm install
 cd ../server
 npm install
-
-### ENV VAR 
-PORT=8000
-ADMIN_EMAIL=your_admin_email@example.com
-ADMIN_PASSWORD=your_secure_password
-IMAGEKIT_PUBLIC_KEY=your_image_public_key
-IMAGEKIT_PRIVATE_KEY=your_image_private_key
-IMAGEKIT_URL_ENDPOINT=your_image_url_endpoint
-JWT_SECRET=your_jwt_secret_key
-GEMINI_API_KEY=your_google_gemini_api_key
-
+ 
 ### Runing the APP
 1 . **Client**
   cd client
