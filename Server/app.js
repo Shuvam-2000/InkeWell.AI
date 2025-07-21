@@ -12,7 +12,7 @@ const app = express();
 configDotenv();
 
 // initialize the port
-const PORT  = process.env.PORT || 8001;
+// const PORT  = process.env.PORT || 8001;
 
 // middlewares
 app.use(express.json());
@@ -29,4 +29,4 @@ app.use('/api/user', userRoute)
 app.use('/api/blog', blogRoute)
 
 // run the server
-app.listen(PORT, () => console.log(`Server runing on PORT: ${PORT}`));
+// app.listen(PORT, () => console.log(`Server runing on PORT: ${PORT}`));
