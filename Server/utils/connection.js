@@ -1,14 +1,34 @@
 import mongoose from "mongoose";
-import { configDotenv } from 'dotenv';
 
-// Load environment variables
-configDotenv();
+let isConnected = false; // Global flag to reuse connection
 
-// initialize db connection with environment variables
-const mongo_url = process.env.MONGO_URL;
+const connectDB = async () => {
+  if (isConnected) {
+    // Use existing connection
+    return;
+  }
 
-// connecting to the database
-mongoose.connect(mongo_url)
-.then(() => console.log("MongoDb Connected")).catch((err) =>{
-    console.log("Connection Failed", err)
-})
+  try {
+    const mongo_url = process.env.MONGO_URL;
+
+    if (!mongo_url) {
+      throw new Error("❌ MONGO_URL environment variable not set");
+    }
+
+    const db = await mongoose.connect(mongo_url, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+
+    isConnected = db.connections[0].readyState === 1;
+    console.log("✅ MongoDB Connected");
+  } catch (err) {
+    console.error("❌ MongoDB connection error:", err.message);
+    throw err;
+  }
+};
+
+// Immediately call connectDB
+connectDB();
+
+export default connectDB;
